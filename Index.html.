@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RIFA GANAYA</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101010;color:white;font-family:Arial,sans-serif}
+header{background:#190909;border-bottom:3px solid #d4a52c;text-align:center;padding:25px}
+h1{color:#e0b52e;font-size:32px;margin:5px}
+h2{color:#e0b52e}
+main{max-width:850px;margin:auto;padding:18px}
+.card{background:#202020;padding:18px;border:1px solid #765b20;border-radius:12px;margin:15px 0}
+.prize{font-size:23px;color:#ffd34e;text-align:center}
+.numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.num{padding:13px 3px;border-radius:8px;border:1px solid #bd942a;background:#292929;color:white;font-size:17px}
+.num.selected{background:#d4a52c;color:black}
+button{cursor:pointer}
+.action{background:#d4a52c;color:#111;border:0;padding:13px;border-radius:8px;font-weight:bold;width:100%;margin-top:12px}
+input{width:100%;padding:12px;margin:7px 0;border-radius:7px;border:1px solid #777}
+.small{color:#bbb;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<h1>RIFA GANAYA</h1>
+<p>¡Tu oportunidad de ganar!</p>
+</header>
+<main>
+<section class="card">
+<h2 class="prize">🏆 UN SOLO PREMIO EN EFECTIVO</h2>
+<p style="text-align:center">100 números disponibles: 00 al 99</p>
+<p class="small" style="text-align:center">Seleccioná tus números favoritos</p>
+</section>
+
+<section class="card">
+<h2>🎟️ Elegí tus números</h2>
+<div class="numbers" id="numbers"></div>
+<p id="chosen">Números seleccionados: ninguno</p>
+<button class="action" onclick="sendWhatsApp()">CONSULTAR POR WHATSAPP</button>
+</section>
+
+<section class="card">
+<h2>💳 Datos de pago</h2>
+<p>Alias: <strong>7678281</strong></p>
+<p>WhatsApp: <strong>0991676299</strong></p>
+<p class="small">La reserva y confirmación de números se realizarán manualmente durante esta prueba.</p>
+</section>
+
+<section class="card">
+<h2>🔐 Acceso administrador</h2>
+<p class="small">Acceso de demostración. Todavía no es un inicio de sesión seguro.</p>
+<input id="adminUser" placeholder="Usuario administrador">
+<input id="adminPass" type="password" placeholder="Contraseña">
+<button class="action" onclick="adminDemo()">ENTRAR A DEMOSTRACIÓN</button>
+<p id="adminMessage"></p>
+</section>
+<footer style="text-align:center;color:#aaa;padding:20px">
+RIFA GANAYA © 2026
+</footer>
+</main>
+
+<script>
+let selected=[];
+let numbers=document.getElementById("numbers");
+
+for(let i=0;i<100;i++){
+ let b=document.createElement("button");
+ b.className="num";
+ b.textContent=String(i).padStart(2,"0");
+ b.onclick=()=>{
+  if(selected.includes(i)){
+   selected=selected.filter(n=>n!==i);
+   b.classList.remove("selected");
+  }else{
+   selected.push(i);
+   b.classList.add("selected");
+  }
+  document.getElementById("chosen").textContent=
+   "Números seleccionados: "+
+   (selected.length?selected.map(n=>String(n).padStart(2,"0")).join(", "):"ninguno");
+ };
+ numbers.appendChild(b);
+}
+
+function sendWhatsApp(){
+ if(!selected.length){alert("Seleccioná al menos un número");return;}
+ let nums=selected.map(n=>String(n).padStart(2,"0")).join(", ");
+ let msg="Hola, quiero consultar por los números: "+nums+" de RIFA GANAYA.";
+ window.open("https://wa.me/595991676299?text="+encodeURIComponent(msg),"_blank");
+}
+
+function adminDemo(){
+ let u=document.getElementById("adminUser").value;
+ let p=document.getElementById("adminPass").value;
+ document.getElementById("adminMessage").textContent=
+ "Esta es solamente una maqueta. El acceso real se configurará con servidor seguro.";
+}
+</script>
+</body>
+</html>
